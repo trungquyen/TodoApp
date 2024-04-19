@@ -77,6 +77,7 @@ export default function DailyInput({userInfo}) {
           <View style={{
             width: 345,
             height: 30,
+            marginRight: 5,
             flexDirection: 'row'
           }}>
             <TextInput 
@@ -87,7 +88,7 @@ export default function DailyInput({userInfo}) {
               style={{
                 fontSize: 20,
                 width: '83%',
-                marginRight: 10
+                marginRight: 5
               }}
             />
             
@@ -101,7 +102,8 @@ export default function DailyInput({userInfo}) {
               style={{
                 fontSize: 20,
                 borderBottomColor: 'black',
-                borderBottomWidth: 1
+                borderBottomWidth: 1,
+                marginHorizontal: 2
               }}
             />
             <Text style={{
@@ -117,7 +119,8 @@ export default function DailyInput({userInfo}) {
               style={{
                 fontSize: 20,
                 borderBottomColor: 'black',
-                borderBottomWidth: 1
+                borderBottomWidth: 1,
+                marginHorizontal: 2
               }}
             />
           </View>
@@ -125,7 +128,7 @@ export default function DailyInput({userInfo}) {
           <View style={{
             borderBottomColor: 'black',
             borderBottomWidth: 1,
-            marginLeft: 10,
+            marginLeft: 5,
             paddingBottom: 5
           }}>
             <View style={{

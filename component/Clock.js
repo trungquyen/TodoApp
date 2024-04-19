@@ -87,8 +87,8 @@ const clock = StyleSheet.create({
     backgroundColor: 'black',
   },
   hourHand: {
-    top: 23,
-    left: 72,
+    top: 25,
+    left: 75,
     width: 4,
     height: 50,
     borderRadius: 2,

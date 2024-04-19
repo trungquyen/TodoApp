@@ -16,7 +16,7 @@ export default function HomeScreen() {
   const dispatch = useDispatch()
   const handleLogout = async () => {
     await signOut(auth)
-    dispatch(resetDaily())
+    //dispatch(resetDaily())
     dispatch(removeUser())
     console.log('Log out successfully')
   }
