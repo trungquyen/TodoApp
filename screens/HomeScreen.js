@@ -1,26 +1,29 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, Button, SafeAreaView, StyleSheet} from 'react-native'
-import React from 'react'
+import { View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux'; 
 import styles from '../assets/styles'
 import { useNavigation } from '@react-navigation/native';
-import Checkbox from 'expo-checkbox';
 import { signOut } from 'firebase/auth'
 import { auth } from '../config/firebase';
-import { addUser } from '../redux/slices/userSlice';
+import DailyList from '../component/DailyList';
+import { removeUser } from '../redux/slices/userSlice';
+import Clock from '../component/Clock';
 import useAuth from '../hooks/useAuth';
-
+import ArrowButton from '../component/ArrowButton';
+import { resetDaily } from '../redux/slices/dailySlice';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
-  const { user } = useAuth()
+  const dispatch = useDispatch()
   const handleLogout = async () => {
     await signOut(auth);
+    dispatch(resetDaily())
+    dispatch(removeUser());
     console.log('Log out successfully')
   }
-  const dailyInfo = useSelector((state) => state.daily )
-  //const userInfo = useSelector((state) => state.user)
-  console.log(user);
   
+  const userInfo = useSelector((state) => state.user.user)
+  const {dailyData} = useAuth()
+
   return (
     <View style={styles.container} >
       <Image source={require('../assets/images/group1.png')} 
@@ -47,25 +50,7 @@ export default function HomeScreen() {
         }} 
       />
 
-      <TouchableOpacity 
-        onPress={handleLogout}
-        style={{
-          width: '10%',
-          height: '10%',
-          position: 'absolute',
-          top: 50,
-          left: 40,
-          zIndex: 10
-        }} 
-      >
-        <Image source={require('../assets/images/Arrow.png')}
-          style={{
-            width: '100%',
-            height: '100%',
-            resizeMode: 'contain'
-          }} 
-        />
-      </TouchableOpacity>
+      <ArrowButton handleClick={handleLogout} />
       
       <View style={{
         width: '100%',
@@ -74,7 +59,7 @@ export default function HomeScreen() {
         alignItems: 'center',
         backgroundColor: 'rgb(196, 231, 230)',
         borderRadius: 40,
-        paddingBottom: 20
+        paddingBottom: 20,
       }}>
         <View style={{
           width: 120,
@@ -82,13 +67,16 @@ export default function HomeScreen() {
           backgroundColor: 'white',
           borderRadius: 100,
           marginBottom: 30,
+          overflow: 'hidden'
         }}
         >
           <Image source={require('../assets/images/avatar.jpeg')}
             style={{
               width: '100%',
               height: '100%',
-              resizeMode: 'contain'
+              resizeMode: 'cover',
+              zIndex: 10,
+              overflow: 'hidden'
             }}
           />
         </View>
@@ -100,7 +88,7 @@ export default function HomeScreen() {
             textAlign: 'center',
           }}
         >
-          welcome {user?.userName}
+          welcome {userInfo?.userName}
         </Text>
       </View>
 
@@ -110,46 +98,8 @@ export default function HomeScreen() {
         justifyContent: 'flex-start',
         alignItems: 'center'
       }}>
-        <Text style={{
-          width: '100%',
-          textAlign: 'right',
-          fontSize: 15,
-          fontWeight: 600,
-          padding: 5
-        }}>
-          Good Morning
-        </Text>
 
-        <View 
-          style={{
-            width: 150,
-            height: 150,
-            backgroundColor: 'white',
-            borderRadius: 100,
-            marginBottom: 5,
-            position: 'relative'
-          }}
-        >
-          <Text style={[clock.text, {left: 67}]}>12</Text>
-          <Text style={[clock.text, {top: 65, left: 2}]}>9</Text>
-          <Text style={[clock.text, {left: 138, top: 65}]}>3</Text>
-          <Text style={[clock.text, {left: 70, bottom: 0}]}>6</Text>
-          <View style={{
-            padding: 1,
-            width: '100%',
-            backgroundColor: 'green',
-            position: 'absolute',
-            top: 74
-          }} />
-          <View style={{
-            width: 1,
-            height: '100%',
-            padding: 1,
-            backgroundColor: 'green',
-            position: 'absolute',
-            left: 74
-          }} />
-        </View>
+        <Clock />
         
         <View
           style={{
@@ -166,6 +116,7 @@ export default function HomeScreen() {
           >
             Tasks List
           </Text>
+
           <View
             style={{
               width: '100%',
@@ -213,23 +164,10 @@ export default function HomeScreen() {
               marginBottom: 0
             }} />
 
-            <ScrollView>
-              <View style={{
-                flexDirection: 'row',
-                marginTop: 12,
-                width: 300,
-              }}>
-                <Checkbox/>
-                <Text style={{
-                  fontSize: 15,
-                  fontWeight: 300,
-                  paddingHorizontal: 10
-                }}>
-                  {dailyInfo.content} by {dailyInfo.hour}:{dailyInfo.minute} {dailyInfo.session}
-                </Text>
-              </View>
-            </ScrollView>
+            <DailyList dailyData={dailyData} />
+
           </View>
+
         </View>
         
       </View>

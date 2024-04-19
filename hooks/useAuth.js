@@ -1,37 +1,50 @@
 // import { loginStart, loginSuccess, loginFailed } from '../redux/slices/userSlice';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
-import { auth, db } from '../config/firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth, dailyRef, db } from '../config/firebase';
+import { doc, getDoc, onSnapshot, query, where, orderBy } from 'firebase/firestore';
 import { addUser } from '../redux/slices/userSlice';
 
 export default function useAuth() {
   const [user, setUser] = useState(null);
-  const [userInfo, setUserInfo] = useState(null)
-  const dispatch = useDispatch();
+  const [dailyData, setDailyData] = useState([])
+  const dispatch = useDispatch();  
   const updateUserData = async (userId) => {
-    const docRef = doc(db, 'users', userId);
-    const docSnap = await getDoc(docRef);
+    const userRef = doc(db, 'users', userId);
+    const userSnap = await getDoc(userRef);
 
-    if (docSnap.exists()) {
-      let data = docSnap.data();
-      setUser({userEmail: data.email, userName: data.userName, userURL: data.userURL, userId: data.userId})
+    if (userSnap.exists()) {
+      let data = userSnap.data();
+      dispatch(addUser(data))
     }
   }
-
+  
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, user=>{    
       if (user){
         setUser(user);
         updateUserData(user.uid);
-        //dispatch(addUser(userInfo));
-      }else{
-        setUser(null);
-      }
-    });
-    return unsub;
-  },[]);
+        getDailyData(user.uid)
+        }else{
+          setUser(null);
+        }
+      });
+      return unsub;
+    },[]);
 
-  return { user }
+  const getDailyData = (id) => {
+    const q = query(
+      dailyRef, where("userId", "==", id));
+    let unsub = onSnapshot(q, (snapshot) => {
+      let allDaily = snapshot.docs.map(doc=>{
+        return doc.data();
+      });
+      setDailyData([...allDaily])
+    });
+
+    return unsub;
+  }
+    
+  return { user, dailyData }
 }

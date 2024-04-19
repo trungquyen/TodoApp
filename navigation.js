@@ -1,18 +1,21 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { doc, getDoc, setDoc, addDoc, updateDoc } from 'firebase/firestore';
 import StartScreen from './screens/StartScreen';
 import HomeScreen from './screens/HomeScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import SignInScreen from './screens/SignInScreen';
 import DailyScreen from './screens/DailyScreen';
 import useAuth from './hooks/useAuth';
+import { useSelector } from 'react-redux';
 
 const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
   const {user} = useAuth();
+  const userInfo = useSelector(state => state.user.user)
 
-  if(user){
+  if(user && userInfo){
     return (
       <NavigationContainer>
         <Stack.Navigator screenOptions={{
