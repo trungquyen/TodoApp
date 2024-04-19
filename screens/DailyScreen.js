@@ -1,10 +1,7 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, Button, TextInput, SafeAreaView} from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { View, Text, Image, TouchableOpacity, Keyboard} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from '../assets/styles';
 import { useNavigation } from '@react-navigation/native';
-import { dailyRef, db } from '../config/firebase';
-import { doc, getDoc, setDoc, addDoc, updateDoc, query, where, onSnapshot } from 'firebase/firestore';
 import DailyList from '../component/DailyList';
 import DailyInput from '../component/DailyInput';
 import useAuth from '../hooks/useAuth';
@@ -98,9 +95,9 @@ export default function DailyScreen() {
         justifyContent: 'flex-end',
         alignItems: 'center',
         backgroundColor: 'rgb(196, 231, 230)',
-        borderRadius: 40,
         paddingBottom: 20,
-        position: 'relative'
+        borderBottomLeftRadius: 40,
+        borderBottomRightRadius: 40,
       }} />
 
       <DailyInput userInfo={userInfo} />

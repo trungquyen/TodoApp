@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import * as Yup from 'yup';
 import styles from '../assets/styles'
@@ -14,11 +14,11 @@ export default function SignUpInput() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('')
-  const [error, setError] = useState('')
+  //const [error, setError] = useState('')
 
   const handleSubmit = async () => {
-    if (confirm && confirm === password){
-      if (email && password && userName && confirm){
+    if (email && password && userName){
+      if (confirm && confirm === password){
         try {
           const res = await createUserWithEmailAndPassword(auth, email, password)
   
@@ -31,47 +31,53 @@ export default function SignUpInput() {
   
           console.log('Resgister success')
         } catch (err) {
-          console.log("got error: ", err.message)
+          Alert.alert('Có lỗi xảy ra', err.message)
         }
+      } else {
+        Alert.alert('Có lỗi xảy ra', 'Bạn phải xác nhận lại mật khẩu')
       }
     } else {
-      setError('Bạn phải xác nhận lại mật khẩu')
+      // setError('Bạn phải xác nhận lại mật khẩu')
+      Alert.alert('Có lỗi xảy ra', 'Bạn chưa nhập thông tin')
     }
   }
 
   const validateUser = async () => {
     try {
       await Yup.string().required('Vui lòng nhập tên của bạn').validate(userName)
-      setError('');
+      //setError('');
     } catch (error) {
-      setError(error.message);
+      //setError(error.message);
+      Alert.alert('Có lỗi xảy ra', error.message)
     }
   };
 
   const validateEmail = async () => {
     try {
       await Yup.string().email('Đây không phải là email').required('Vui lòng nhập email').validate(email)
-      setError('');
+      //setError('');
     } catch (error) {
-      setError(error.message);
+      //setError(error.message);
+      Alert.alert('Có lỗi xảy ra', error.message)
     }
   };
 
   const validatePassword = async () => {
     try {
       await Yup.string()
+        .required('Vui lòng tạo mật khẩu')
         .min(6, 'Mật khẩu ít nhất phải 6 ký tự')
         .max(12, 'Mật khẩu có tối đa 12 ký tự')
         .matches(/[a-z]/, 'Mật khẩu phải có ít nhất một chữ thường')
         .matches(/[A-Z]/, 'Mật khẩu phải có ít nhất một chữ in hoa')
         .matches(/[0-9]/, 'Mật khẩu phải có ít nhất một chữ số')
         .matches(/[!@#$%^&*]/, 'Mật khẩu phải có ít nhất một ký tự đặc biệt')
-        .required('Vui lòng tạo mật khẩu')
         .validate(password);
 
-      setError('');
+      //setError('');
     } catch (error) {
-      setError(error.message);
+      //setError(error.message);
+      Alert.alert('Có lỗi xảy ra', error.message)
     }
   };
 
@@ -107,16 +113,6 @@ export default function SignUpInput() {
         >
         let's help you meet up your tasks
       </Text >
-
-      {error ? <Text style={{ 
-        color: 'red',
-        width: '70%',
-        fontSize: 20,
-        fontWeight: 600,
-        alignItems:'center',
-        textAlign: 'center',
-        marginBottom: 5
-      }}>{error}</Text> : null}
       
       <TextInput 
         placeholder='Enter your full name' 

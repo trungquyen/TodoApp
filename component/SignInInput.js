@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -11,7 +11,7 @@ export default function SignInInput() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  //const [error, setError] = useState('');
 
   const handleSubmit = async () => {
     if(email && password){
@@ -19,28 +19,31 @@ export default function SignInInput() {
         await signInWithEmailAndPassword(auth, email, password);
         console.log('Login success')
       } catch (err) {
-        console.log("got error: ", err.message)
+        // console.log("got error: ", err.message)
+        Alert.alert('Có lỗi xảy ra', err.message)
       }
     } else {
-      setError('Bạn chưa nhập email hoặc password')
+      //setError('Bạn chưa nhập email hoặc password')
+      Alert.alert('Có lỗi xảy ra', 'Bạn chưa nhập email hoặc password')
     }
   }
 
   const validateEmail = async () => {
     try {
       await Yup.string().email('Đây không phải là email').required('Vui lòng nhập email').validate(email)
-      setError('');
+      //setError('');
     } catch (error) {
-      setError(error.message);
+      //setError(error.message);
+      Alert.alert('Có lỗi xảy ra', error.message )
     }
   };
 
   const validatePassword = async () => {
     try {
       await Yup.string().required('Vui lòng nhập mật khẩu').validate(password);
-      setError('');
+      //setError('');
     } catch (error) {
-      setError(error.message);
+      Alert.alert('Có lỗi xảy ra', error.message )
     }
   };
 
@@ -53,7 +56,7 @@ export default function SignInInput() {
       paddingTop: 5
     }}>
 
-      {error ? <Text style={{ 
+      {/* {error ? <Text style={{ 
         color: 'red',
         width: '70%',
         fontSize: 20,
@@ -61,7 +64,7 @@ export default function SignInInput() {
         alignItems:'center',
         textAlign: 'center',
         marginBottom: 5
-      }}>{error}</Text> : null}
+      }}>{error}</Text> : null} */}
 
       <TextInput placeholder='Enter your email' 
         style={styles.input} 

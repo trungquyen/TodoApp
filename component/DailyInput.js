@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { addDoc, doc, updateDoc } from 'firebase/firestore';
@@ -98,7 +98,13 @@ export default function DailyInput({userInfo}) {
               keyboardType='numeric'
               maxLength={2}
               value={hour}
-              onChangeText={value => setHour(value)}
+              onChangeText={value => {
+                if (value>12){
+                  Alert.alert('Bạn đã nhập sai giờ','Vui lòng nhập lại giờ từ 1 đến 12')
+                } else {
+                  setHour(value)
+                }
+              }}
               style={{
                 fontSize: 20,
                 borderBottomColor: 'black',
@@ -115,7 +121,13 @@ export default function DailyInput({userInfo}) {
               keyboardType='numeric'
               maxLength={2}
               value={minute}
-              onChangeText={value => setMinute(value)}
+              onChangeText={value => {
+                if (value>59){
+                  Alert.alert('Bạn đã nhập sai phút','Vui lòng nhập lại phút từ 00 đến 59')
+                } else {
+                  setMinute(value)
+                }
+              }}
               style={{
                 fontSize: 20,
                 borderBottomColor: 'black',

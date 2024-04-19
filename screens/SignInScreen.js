@@ -1,8 +1,6 @@
-import { View, Text, Image, TouchableOpacity, TextInput,} from 'react-native'
+import { View, Text, Image } from 'react-native'
 import React, { useState } from 'react'
-import styles from '../assets/styles'
 import { useNavigation } from '@react-navigation/native';
-import * as Yup from 'yup';
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../config/firebase';
 import ArrowButton from '../component/ArrowButton';
@@ -28,7 +26,6 @@ export default function SignInScreen() {
 
   return (
     <KeybroadView >
-      {/* <View style={styles.container} > */}
         <Image source={require('../assets/images/group1.png')} 
           style={{
             width: '70%',
@@ -70,79 +67,6 @@ export default function SignInScreen() {
 
         <SignInInput />
 
-        {/* <View style={{
-          width: '100%',
-          height: '40%',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          paddingTop: 10
-        }}>
-
-          <TextInput placeholder='Enter your email' 
-            style={styles.input} 
-            inputMode='email' 
-            keyboardType='email-address' 
-            value={email}
-            onChangeText={value => setEmail(value)}
-          />
-
-          <TextInput placeholder='Confirm password' 
-            style={styles.input} 
-            secureTextEntry
-            inputMode='text' 
-            maxLength={12} 
-            value={password}
-            onChangeText={value => setPassword(value)}
-          />
-
-          <TouchableOpacity 
-            style={{
-              width: '100%',
-              paddingStart: 35,
-              marginVertical: 5
-            }}
-          >
-            <Text style={{
-              color: 'rgb(106, 171, 171)',
-              fontWeight: '600'
-            }}>
-              Foget Password?
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.button} 
-            onPress={handleSubmit}
-          >
-            <Text style={styles.buttonText}>
-              Log in
-            </Text>
-          </TouchableOpacity>
-
-          <View style={{
-            width: '100%',
-            padding: 20,
-            position: 'relative'
-          }}>
-            <Text>
-              Don't have an account ? 
-            </Text>
-            <TouchableOpacity style={{
-              position: 'absolute',
-              bottom: 20,
-              left: 180
-            }} onPress={() => navigation.navigate('SignUp')}
-            >
-              <Text style={{
-                color: 'rgb(106, 171, 171)',
-                fontWeight: '600'
-              }}>
-                Sign up
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View> */}
-      {/* </View> */}
     </KeybroadView>
   )
 }

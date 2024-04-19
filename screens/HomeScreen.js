@@ -9,14 +9,12 @@ import { removeUser } from '../redux/slices/userSlice';
 import Clock from '../component/Clock';
 import useAuth from '../hooks/useAuth';
 import ArrowButton from '../component/ArrowButton';
-import { resetDaily } from '../redux/slices/dailySlice';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
   const dispatch = useDispatch()
   const handleLogout = async () => {
     await signOut(auth)
-    //dispatch(resetDaily())
     dispatch(removeUser())
     console.log('Log out successfully')
   }
@@ -58,8 +56,9 @@ export default function HomeScreen() {
         justifyContent: 'flex-end',
         alignItems: 'center',
         backgroundColor: 'rgb(196, 231, 230)',
-        borderRadius: 40,
         paddingBottom: 20,
+        borderBottomLeftRadius: 40,
+        borderBottomRightRadius: 40,
       }}>
         <View style={{
           width: 120,
