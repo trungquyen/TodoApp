@@ -15,9 +15,9 @@ export default function HomeScreen() {
   const navigation = useNavigation();
   const dispatch = useDispatch()
   const handleLogout = async () => {
-    await signOut(auth);
+    await signOut(auth)
     dispatch(resetDaily())
-    dispatch(removeUser());
+    dispatch(removeUser())
     console.log('Log out successfully')
   }
   
@@ -86,6 +86,7 @@ export default function HomeScreen() {
             fontWeight: 700,
             height: 36,
             textAlign: 'center',
+            zIndex: 100
           }}
         >
           welcome {userInfo?.userName}

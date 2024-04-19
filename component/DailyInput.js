@@ -75,23 +75,24 @@ export default function DailyInput({userInfo}) {
           alignItems:'flex-end'
         }}>
           <View style={{
-            width: '90%',
+            width: 345,
             height: 30,
             flexDirection: 'row'
           }}>
             <TextInput 
-              placeholder={dailyInfo ? dailyInfo.note : 'Enter new daily'}
+              placeholder={'Enter new daily'}
               inputMode='text' 
               value={note}
               onChangeText={value => setNote(value)}
               style={{
                 fontSize: 20,
-                width: 300
+                width: '83%',
+                marginRight: 10
               }}
             />
             
             <TextInput 
-              placeholder={dailyInfo ? dailyInfo.hour : '12'}
+              placeholder={'12'}
               inputMode='numeric'
               keyboardType='numeric'
               maxLength={2}
@@ -107,7 +108,7 @@ export default function DailyInput({userInfo}) {
               fontSize: 20,
             }}>:</Text>
             <TextInput 
-              placeholder={dailyInfo ? dailyInfo.minute : '00'}
+              placeholder={'00'}
               inputMode='numeric'
               keyboardType='numeric'
               maxLength={2}

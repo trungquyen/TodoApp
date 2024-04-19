@@ -49,8 +49,8 @@ export default function DailyScreen() {
         style={{
           position: 'absolute',
           height: 350,
-          left: 50,
-          bottom: 420,
+          left: 45,
+          top: 165,
           zIndex:10
         }}
       >
